@@ -8,6 +8,8 @@ import multer from "multer";
 import dynamicRoute from "./routes/common.routes.js";
 import inquiryRoute from "./routes/inquiry.routes.js";
 import adminRouter from "./routes/admin.routes.js";
+import { loginAdmin } from "./controller/admin.Controller.js";
+import { addCrafterReview, getCrafterReviews } from "./controller/codecraftercontroller.js";
 config();
 
 // Initialize Express app
@@ -24,6 +26,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
+      "http://localhost:5174",
       "http://localhost:3000",
       "http://localhost:5174",
       "https://freelance.webakash1806.com",
@@ -44,6 +47,10 @@ app.use(morgan("dev"));
 app.use("/api/v1/dynamic",dynamicRoute)
 app.use("/api/v1/inquiry",inquiryRoute)
 app.use("/api/v1/admin",adminRouter)
+app.use("/api/v1/login",loginAdmin)
+app.post("/api/v1/crafter/review",addCrafterReview)
+app.get("/api/v1/crafter/review",getCrafterReviews)
+
 
 // // Routes
 // app.use("/api/v1/user", userRouter);
@@ -70,6 +77,12 @@ app.use("/api/v1/admin",adminRouter)
 // app.use("/api/v1/inquiry", inquiryRoute);
 // app.use("/api/v1/vendor", vendorRoute);
 
+app.get("/test", (req, res) => {
+  res.status(200).json({
+    message: "testis running and ready.",
+  });
+});
+
 // Default route
 app.get("/", (req, res) => {
   res.status(200).json({
@@ -82,7 +95,7 @@ app.all("*", (req, res) => {
   res.status(404).json({
     success: false,
     status: 404,
-    message: "Oops! Not Found",
+    message: "Oops! pagal h kya  Not Found",
   });
 });
 

@@ -134,9 +134,13 @@ const createSection = async (req, res,next) => {
 };
 
 const editSection = async (req, res,next) => {
+  console.log("hi hlo hy");
   const { title, description, page } = req.body;
 
-  try {
+
+  
+
+  // try {
     // Check if a section with the same title already exists
     let section = await SectionModel.findOne({ title });
 
@@ -144,14 +148,15 @@ const editSection = async (req, res,next) => {
       // If the section exists, update the description and photo (if provided)
       section.description = description || section.description;
 
-      // If a new file is uploaded, update the photo
+    
       if (req.file) {
         console.log("File Upload:", req.file);
+        
 
         // Normalize the path to avoid issues with backslashes on Windows
-        const normalizedPath = path.resolve(req.file.path).replace(/\\/g, '/');
+    
 
-        const result = await cloudinary.v2.uploader.upload(normalizedPath, {
+        const result = await cloudinary.v2.uploader.upload(req.file.path, {
           folder: "lms",
         });
 
@@ -176,11 +181,11 @@ const editSection = async (req, res,next) => {
         section,
       });
     // } 
-  } catch (error) {
-    console.log(error);
+  // } catch (error) {
+  //   console.log(error);
     
-     return next(new AppError(error.message,500))
-  }
+  //    return next(new AppError(error.message,500))
+  // }
 };
 
 const deleteSection = async (req, res, next) => {
