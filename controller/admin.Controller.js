@@ -16,6 +16,8 @@ const addAdmin=async(req,res,next)=>{
 
     const {email,password,role,name}=req.body
 
+    
+
     if(!email || !password){
         return next(new AppError("All field are Required",404))
     }
@@ -80,22 +82,37 @@ const loginAdmin=async(req,res,next)=>{
   
    const {email,password}=req.body
 
+   console.log(req.body);
+
+   console.log(email);
+   console.log(password);
+   
+   
+
    if(!email || !password){
     return next(new AppError("All filed are Required",400))
    }
+  
+   const admin=await Admin.find({})
 
+   console.log(admin);
+   
 
    const verifyAdmin=await Admin.findOne({email})
+
+   console.log(verifyAdmin);
 
    if(!verifyAdmin){
     return next(new AppError("Admin Not Found",404))
    }
 
-//    console.log(verifyAdmin);
+
    
 
-   if(verifyAdmin.password!==password){
-    return  next(new AppError("Password is Incorrect"))
+   if(verifyAdmin.password!=password){
+    console.log("ye aaya hai");
+    
+    return  next(new AppError("Password is Incorrect",402))
    }
 
    if(!verifyAdmin.status){

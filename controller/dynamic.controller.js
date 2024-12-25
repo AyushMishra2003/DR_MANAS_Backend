@@ -137,6 +137,9 @@ const editSection = async (req, res,next) => {
   console.log("hi hlo hy");
   const { title, description, page } = req.body;
 
+  console.log(description);
+  
+
 
   
 
@@ -144,9 +147,16 @@ const editSection = async (req, res,next) => {
     // Check if a section with the same title already exists
     let section = await SectionModel.findOne({ title });
 
+    console.log(section);
+    
+
     // if (section) {
       // If the section exists, update the description and photo (if provided)
-      section.description = description || section.description;
+
+      if(description){
+        section.description = description || section.description;
+      }
+ 
 
     
       if (req.file) {
